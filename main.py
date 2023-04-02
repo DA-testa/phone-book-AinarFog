@@ -1,47 +1,53 @@
 # python3
 
-class Query:
-    def __init__(self, query):
-        self.type = query[0]
-        self.number = int(query[1])
-        if self.type == 'add':
-            self.name = query[2]
+def enter():
+  a=int(input())
+  list=[]
+  for i in range(a):
+    ph=input().split(" ")
+    ph[1]=int(ph[1])
+    ph[0]=ph[0].lower()  
+    list.append(ph)
+  return list
 
-def read_queries():
-    n = int(input())
-    return [Query(input().split()) for i in range(n)]
+def add(q1,q2,pb):
+  for i in range(len(pb)):
+    ph=pb[i]
+    if (q1 in ph.values()):
+      del pb[i]
+      break
+  pb.append({"num":q1,"name":q2})
+  return pb    
 
-def write_responses(result):
-    print('\n'.join(result))
+def delete(pb,q1):
+  q2=0
+  for i in range(len(pb)):
+    ph=pb[i]
+    if (q1 == ph.get("num")):
+      del pb[i]
+      q2=1
+      return pb
+      break
+  if (q2==0):
+    print("not found")
+    return pb
 
-def process_queries(queries):
-    result = []
-    # Keep list of all existing (i.e. not deleted yet) contacts.
-    contacts = []
-    for cur_query in queries:
-        if cur_query.type == 'add':
-            # if we already have contact with such number,
-            # we should rewrite contact's name
-            for contact in contacts:
-                if contact.number == cur_query.number:
-                    contact.name = cur_query.name
-                    break
-            else: # otherwise, just add it
-                contacts.append(cur_query)
-        elif cur_query.type == 'del':
-            for j in range(len(contacts)):
-                if contacts[j].number == cur_query.number:
-                    contacts.pop(j)
-                    break
-        else:
-            response = 'not found'
-            for contact in contacts:
-                if contact.number == cur_query.number:
-                    response = contact.name
-                    break
-            result.append(response)
-    return result
+def find(pb,q1):
+  for i in range(len(pb)):
+    ph=pb[i]
+    if(q1 == ph.get("num")):
+      print(ph.get("name"))
+      break
 
-if __name__ == '__main__':
-    write_responses(process_queries(read_queries()))
-
+def dict(list):
+  phones=[]
+  for i in range(len(list)):
+    ph=list[i]
+    if("add" in ph):
+      phones=add(ph[1],ph[2],phones)
+    elif("find" in ph):
+      find(phones,ph[1])
+    elif("del" in ph):
+      phones=delete(phones,ph[1])
+if __name__ =='__main__':
+  dict(enter())
