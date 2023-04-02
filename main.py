@@ -20,24 +20,24 @@ def add(q1,q2,pb):
   return pb    
 
 def delete(pb,q1):
-  q2=0
   for i in range(len(pb)):
     ph=pb[i]
     if (q1 == ph.get("num")):
       del pb[i]
-      q2=1
       return pb
       break
-  if (q2==0):
-    print("not found")
-    return pb
+  return pb
 
 def find(pb,q1):
+  q2=0
   for i in range(len(pb)):
     ph=pb[i]
     if(q1 == ph.get("num")):
+      q2=1
       print(ph.get("name"))
       break
+  if (q2==0):
+    print("not found")
 
 def dict(list):
   phones=[]
